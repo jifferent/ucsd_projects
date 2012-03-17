@@ -1,0 +1,3 @@
+CSE 230 - HW2
+
+Run `ghc -i./SOE/src/ --make hw2.lhs`

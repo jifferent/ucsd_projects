@@ -1,0 +1,6 @@
+CSE 230 - HW3
+
+- Install parsec3 (ex: run `cabal install parsec3`)
+- Run `ghc -i./SOE/src/ --make hw3.lhs`
+
+It's a module, it wont create a binary file.

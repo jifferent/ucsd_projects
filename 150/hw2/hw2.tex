@@ -1,0 +1,233 @@
+%
+%  CSE 150. Assignment 2
+%
+%  Created by Pierre Louis Gottfrois on 2012-01-29.
+%  Copyright (c) 2012. All rights reserved.
+%
+\documentclass[]{article}
+
+% Use utf-8 encoding for foreign characters
+\usepackage[utf8]{inputenc}
+\usepackage{color}
+
+% Setup for fullpage use
+\usepackage{fullpage}
+
+% More symbols
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pstricks,pst-node,pst-tree}
+
+% Surround parts of graphics with box
+\usepackage{boxedminipage}
+
+% Package for including code in the document
+\usepackage{listings}
+
+% If you want to generate a toc for each chapter (use with book)
+\usepackage{minitoc}
+
+% This is now the recommended way for checking for PDFLaTeX:
+\usepackage{ifpdf}
+
+\ifpdf
+\usepackage[pdftex]{graphicx}
+\else
+\usepackage{graphicx}
+\fi
+\usepackage{tikz,tkz-tab}
+
+\title{CSE 150. Assignment 2}
+\author{Pierre-Louis Gottfrois}
+
+\date{2012-01-29}
+
+\begin{document}
+
+\ifpdf
+\DeclareGraphicsExtensions{.pdf, .jpg, .tif}
+\else
+\DeclareGraphicsExtensions{.eps, .jpg}
+\fi
+
+\maketitle
+
+\section{Probabilistic reasoning}
+%\prod_{\substack{i=0}}^{k} P(Y_{i}=1|X=0)
+\begin{align*}
+  r_{k} & = \frac{P(X =1|Y_{1} =1, Y_{2} =1, . . . , Y_{k} =1)}{P(X =0|Y_{1} =1, Y_{2} =1, . . . , Y_{k} =1)} \\
+  &= \frac{\frac{P(X=1)*\prod_{\substack{i=2}}^{k} P(Y_{i}=1|X=1)}{P(Y_{1}=1,Y_{2}=1, . . . , Y_{k}=1)}}{\frac{P(X=0)*\prod_{\substack{i=1}}^{k} P(Y_{i}=1|X=0)}{P(Y_{1}=1,Y_{2}=1, . . . , Y_{k}=1)}} \\
+  &= \frac{\prod_{\substack{i=2}}^{k} P(Y_{i}=1|X=1)}{\prod_{\substack{i=1}}^{k} P(Y_{i}=1|X=0)} \\
+  &= \frac{\prod_{\substack{i=2}}^{k} \frac{2^{i-1}+(-1)^{i-1}}{2^i+(-1)^i}}{\prod_{\substack{i=1}}^{k} 1-(1/2)} \\
+\end{align*}
+
+Here are some values of $x$ computed with $f(x)$: \\
+
+\begin{tabular}{|c|c|}
+  \hline
+  $x$ & $f(x)$ \\
+  \hline
+  $1$ & $1.000$ \\
+  \hline
+  $2$ & $0.8$ \\
+  \hline
+  $3$ & $1.142$ \\
+  \hline
+  $4$ & $0.940$ \\
+  \hline
+  $5$ & $1.030$ \\
+  \hline
+  ... & ... \\
+  \hline
+  $31$ & $1.000$ \\
+  \hline
+\end{tabular}
+\\
+\\
+It depends on the day of the month due to the product for $i=2$ and $i=1$ on both side of the division, to $k$. \\
+The diagnosis seems to become less certain while $k$ becomes bigger. As a matter of fact, the more symptoms you have, the more uncertain it is to know what is the disease.
+Assuming all the symptoms match the two forms of the disease.
+
+\newpage
+\section{Noisy-OR}
+
+\begin{enumerate}
+  \item $P(Z =1|X =0, Y =1) > P(Z =1|X =0, Y =0)$ \\
+  \\
+  \begin{align*}
+    P(Z =1|X =0, Y =1) & = 1-(1-Px)^0*(1-Py)^1 \\
+    &= 1-(1)(1-Py) \\
+    &= 1-(1-Py) \\
+    &= 1-1+Py \\
+    &= Py
+  \end{align*}
+  \begin{align*}
+    P(Z =1|X =0, Y =0) & = 1-(1-Px)^0*(1-Py)^0 \\
+    &= 1-(1)*(1) \\
+    &= 0
+  \end{align*}
+
+  \item $P(Z =1|X =1, Y =0) < P(Z =1|X =0, Y =1)$ \\
+  \\
+  \begin{align*}
+    P(Z =1|X =1, Y =0) & = 1-(1-Px)^1*(1-Py)^0 \\
+    &= 1-(1-Px)(1) \\
+    &= Px
+  \end{align*}
+  \begin{align*}
+    P(Z =1|X =0, Y =1) & = Py \\
+  \end{align*}
+
+  \item $P(Z =1|X =1, Y =1) > P(Z =1|X =1, Y =0)$ \\
+  \\
+  \begin{align*}
+    P(Z =1|X =1, Y =1) & = 1-(1-Px)^1*(1-Py)^1 \\
+    &= 1-(1-Px)(1-Py) \\
+    &= 1-(1-Py-Px+(Px*Py)) \\
+    &= Py+Px-(Px*Py)
+  \end{align*}
+  \begin{align*}
+    P(Z =1|X =1, Y =0) & = Px \\
+  \end{align*}
+\end{enumerate}
+
+\newpage
+\section{Conditional independence}
+
+\begin{enumerate}
+  \item True
+  \item False
+  \item True
+  \item True
+  \item True
+  \item False
+  \item True
+  \item False
+  \item False
+  \item False
+\end{enumerate}
+
+\section{Subsets}
+
+\begin{enumerate}
+  \item $P(A) = P(A|E,C,F)$
+  \item $P(A|B) = P(A|B,E,C,F)$
+  \item $P(A|B,D) = P(A|B,D,E,C,F)$
+  \item $P(B) = P(B|F,D)$
+  \item $P(B|A,E) = P(B|A,E,F,D)$
+  \item $P(B|A,C,E) = P(B|A,C,E,F,D)$
+  \item $P(C) = P(C|A)$
+  \item $P(C|E,F) = P(C|E,F,A)$
+  \item $P(C|B,D,E,F) = P(C|B,D,E,F,A)$
+  \item $P(E) = P(E|A,D,F)$
+\end{enumerate}
+
+\newpage
+\section{Node ordering}
+
+\begin{enumerate}
+  \item $P(D,C,A,F,E,B) = P(D)P(C|D)P(A|C,D)P(F|A,C,D)P(E|F,A,C,D)P(B|E,F,A,C,D)$ \\
+  \\
+  $P(B|E,F,A,C,D) = P(B|E,A,C,D)$ \\
+  $P(E|F,A,C,D) = P(E|F,C,D)$ \\
+  $P(F|A,C,D) = P(F|D)$ \\
+  $P(A|C,D) = P(A|D)$ \\
+  $P(C|D) = P(C)$ \\
+
+  $P(D,C,A,F,E,B) = P(D)P(C)P(A|D)P(F|D)P(E|F,C,D)P(B|E,A,C,D)$ \\
+
+  \begin{center}
+    $
+    \newline
+    \psmatrix[colsep=1.5cm,rowsep=1.5cm,mnode=circle]
+    D&C&A&F&E&B
+    \ncarc[arcangle=-30]{->}{1,1}{1,3}
+    \ncarc[arcangle=-30]{->}{1,1}{1,4}
+    \ncarc[arcangle=-30]{->}{1,1}{1,5}
+    \ncarc[arcangle=-30]{->}{1,1}{1,6}
+    \ncarc[arcangle=30]{->}{1,2}{1,6}
+    \ncarc[arcangle=30]{->}{1,2}{1,5}
+    \ncarc[arcangle=30]{->}{1,3}{1,6}
+    \ncline{->}{1,4}{1,5}
+    \ncline{->}{1,5}{1,6}
+    \endpsmatrix
+    $
+    \newline
+    \newline
+    \newline
+  \end{center}
+
+  \item $P(C,A,F,B,D,E) = P(C)P(A|C)P(F|A,C)P(B|F,A,C)P(D|B,F,A,C)P(E|D,B,F,A,C)$ \\
+  \\
+  $P(E|D,B,F,A,C) = P(E|D,B,F,C)$ \\
+  $P(D|B,F,A,C) = P(D|B,F,A)$ \\
+  $P(B|F,A,C) = P(B|A,C)$ \\
+  $P(F|A,C) = P(F)$ \\
+  $P(A|C) = P(A)$ \\
+
+  $P(C,A,F,B,D,E) = P(C)P(A)P(F)P(B|A,C)P(D|B,F,A)P(E|D,B,F,C)$ \\
+
+  \begin{center}
+    $
+    \newline
+    \psmatrix[colsep=1.5cm,rowsep=1.5cm,mnode=circle]
+    C&A&F&B&D&E
+    \ncarc[arcangle=-30]{->}{1,1}{1,4}
+    \ncarc[arcangle=-30]{->}{1,1}{1,6}
+    \ncarc[arcangle=30]{->}{1,2}{1,4}
+    \ncarc[arcangle=30]{->}{1,2}{1,5}
+    \ncarc[arcangle=-30]{->}{1,3}{1,5}
+    \ncarc[arcangle=-30]{->}{1,3}{1,6}
+    \ncline{->}{1,4}{1,5}
+    \ncarc[arcangle=30]{->}{1,4}{1,6}
+    \ncline{->}{1,5}{1,6}
+    \endpsmatrix
+    $
+    \newline
+    \newline
+    \newline
+  \end{center}
+
+\end{enumerate}
+
+\end{document}

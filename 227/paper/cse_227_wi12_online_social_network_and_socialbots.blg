@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2011)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: cse_227_wi12_online_social_network_and_socialbots.aux
+The style file: plain.bst
+Database file #1: references.bib
+You've used 6 entries,
+            2118 wiz_defined-function locations,
+            521 strings with 4784 characters,
+and the built_in function-call counts, 1256 in all, are:
+= -- 113
+> -- 42
+< -- 0
++ -- 18
+- -- 12
+* -- 41
+:= -- 212
+add.period$ -- 18
+call.type$ -- 6
+change.case$ -- 24
+chr.to.int$ -- 0
+cite$ -- 6
+duplicate$ -- 42
+empty$ -- 133
+format.name$ -- 12
+if$ -- 270
+int.to.chr$ -- 0
+int.to.str$ -- 6
+missing$ -- 0
+newline$ -- 33
+num.names$ -- 12
+pop$ -- 56
+preamble$ -- 1
+purify$ -- 18
+quote$ -- 0
+skip$ -- 41
+stack$ -- 0
+substring$ -- 30
+swap$ -- 6
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 24
+warning$ -- 0
+while$ -- 12
+width$ -- 7
+write$ -- 61
