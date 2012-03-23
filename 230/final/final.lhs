@@ -63,7 +63,7 @@ binary-search-order invariant.
 
 > isBSO ::  Ord a => BST a b -> Bool
 > isBSO Emp            = True
-> isBSO (Bind k v l r) = all (< k) lks && all (k <) rks
+> isBSO (Bind k v l r) = all (< k) lks && all (k <) rks && isBSO l && isBSO r
 >   where lks = map fst $ toBinds l
 >         rks = map fst $ toBinds r
 
@@ -210,18 +210,31 @@ Before defining any operations on your finite channel, you need to
 change the representation of finite channels from the following
 obviously incorrect one:
 
-> data FiniteChan a = Chan ()
+> data FiniteChan a = Chan {
+>   _size     :: Int
+> , _channel  :: (TChan a)
+> , _readPos  :: (TVar Int)
+> , _writePos :: (TVar Int)
+> }
 
 Next, define an operation for creating a finite channel of a
 particular capacity:
 
 > newFiniteChan :: Int -> IO (FiniteChan a)
-> newFiniteChan capacity = error "TODO"
+> newFiniteChan capacity = do
+>   channel   <- newTChanIO
+>   readPos   <- newTVarIO 0
+>   writePos  <- newTVarIO 0
+>   return $ Chan capacity channel readPos writePos
 
 Next, define the operation for reading from the queue:
 
 > readFiniteChan :: FiniteChan a -> IO a
-> readFiniteChan t = error "TODO"
+> readFiniteChan (Chan _ channel readPos writePos) = atomically $ do
+>   value         <- readTChan channel
+>   read_current  <- readTVar readPos
+>   writeTVar readPos (read_current - 1)
+>   return value
 
 Remember that reads should block in the case where the channel is
 empty.
@@ -229,7 +242,20 @@ empty.
 Finally, define the operation for writing to the queue:
 
 > writeFiniteChan :: FiniteChan a -> a -> IO ()
-> writeFiniteChan t x = error "TODO"
+> writeFiniteChan (Chan capacity channel readPos writePos) x = atomically $ do
+>   write_current <- readTVar writePos
+>   if (write_current >= capacity)
+>     then do
+>       read_current <- readTVar readPos
+>       let new_pos = write_current + read_current
+>       when (new_pos >= capacity) retry
+>       writeTVar writePos (new_pos + 1)
+>       writeTVar readPos 0
+>       writeTChan channel x
+>     else do
+>       writeTVar writePos (write_current + 1)
+>       writeTChan channel x
+>   return ()
 
 Remember that writes should block in the case where the channel is at
 capacity.
@@ -704,14 +730,14 @@ Appendix: Code for Type Inference from Lecture
 >   apply _  TBool           = TBool
 >   apply su t@(TVbl a)      = Map.findWithDefault t a su 
 >   apply su (t1 `TArr` t2)  = apply su t1 `TArr` apply su t2
->   apply su (t1 `TCom` t2)  = error "TBD"
+>   apply su (t1 `TCom` t2)  = apply su t1 `TCom` apply su t2
 >   apply su (TList t)       = error "TBD"
 >
 >   freeTvars TInt           =  Set.empty
 >   freeTvars TBool          =  Set.empty
 >   freeTvars (TVbl a)       =  Set.singleton a
 >   freeTvars (t1 `TArr` t2) =  freeTvars t1 `Set.union` freeTvars t2
->   freeTvars (t1 `TCom` t2) = error "TBD"
+>   freeTvars (t1 `TCom` t2) =  freeTvars t1 `Set.union` freeTvars t2
 >   freeTvars (TList t)      = error "TBD"
 >
 > instance Substitutable Scheme where
@@ -736,7 +762,10 @@ Appendix: Code for Type Inference from Lecture
 > su1 `after` su2 = (Map.map (apply su1) su2) `Map.union` su1
 >
 >
-> mgu (l `TCom` r) (l' `TCom` r')  = error "TBD"
+> mgu (l `TCom` r) (l' `TCom` r')  = do  s1 <- mgu l l'
+>                                        s2 <- mgu (apply s1 r) (apply s1 r')
+>                                        return (s2 `after` s1)
+
 > mgu (TList t1) (TList t2)        = error "TBD"
 > mgu (l `TArr` r) (l' `TArr` r')  = do  s1 <- mgu l l'
 >                                        s2 <- mgu (apply s1 r) (apply s1 r')
@@ -797,9 +826,23 @@ Appendix: Code for Type Inference from Lecture
 >         (s2, t2) <- ti (apply s1 env') e2
 >         return (s1 `after` s2, t2)
 >
-> ti env (e1 `ECom` e2) = error "TBD"
-> ti env (EFst e)       = error "TBD"
-> ti env (ESnd e)       = error "TBD"
+> ti env (e1 `ECom` e2) =
+>     do  tv       <- freshTVbl "a"
+>         (s1, t1) <- ti env e1
+>         (s2, t2) <- ti (apply s1 env) e2
+>         s3       <- mgu (apply s2 t1) (TCom t2 tv)
+>         return (s3 `after` s2 `after` s1, apply s3 tv)
+
+> ti env (EFst e)       =
+>     do  tv       <- freshTVbl "a"
+>         (s1, t1) <- ti env e
+>         return (s1, (apply s1 tv) `TCom` t1)
+
+> ti env (ESnd e)       =
+>     do  tv       <- freshTVbl "a"
+>         (s1, t1) <- ti env e
+>         return (s1, (apply s1 tv) `TCom` t1)
+
 >
 > ti env ENil            = error "TBD"
 > ti env (e1 `ECons` e2) = error "TBD"

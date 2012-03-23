@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2012.1.18)  15 MAR 2012 20:11
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2012.1.18)  22 MAR 2012 18:42
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -432,14 +432,18 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 [1
 
 {/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2] [3] (./cse_227_wi12_online_social_network_and_socialbots.bbl
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 7.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 7.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 7.
+[2] [3]
+Underfull \hbox (badness 10000) in paragraph at lines 172--178
 
+ []
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 182.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 182.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 182.
+[4] (./cse_227_wi12_online_social_network_and_socialbots.bbl
 Underfull \hbox (badness 1472) in paragraph at lines 4--8
 \OT1/cmr/m/n/12 twit-ter climbs, 2009.  $\OT1/cmtt/m/n/12 http : / / blog . com
 pete . com / 2009 / 02 / 09 /
@@ -451,27 +455,29 @@ Underfull \hbox (badness 6758) in paragraph at lines 10--13
  http : / / www .
  []
 
-) [4] (./cse_227_wi12_online_social_network_and_socialbots.aux) ) 
+) [5] (./cse_227_wi12_online_social_network_and_socialbots.aux) ) 
 Here is how much of TeX's memory you used:
- 2249 strings out of 493633
- 31920 string characters out of 3143377
- 94604 words of memory out of 3000000
- 5523 multiletter control sequences out of 15000+200000
+ 2250 strings out of 493633
+ 31939 string characters out of 3143377
+ 95613 words of memory out of 3000000
+ 5524 multiletter control sequences out of 15000+200000
  9447 words of font info for 34 fonts, out of 3000000 for 9000
  831 hyphenation exceptions out of 8191
- 37i,6n,23p,275b,307s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 37i,6n,23p,275b,259s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/local/te
 xlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/tex
 live/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texl
-ive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texliv
-e/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/
-2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/20
-11/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on cse_227_wi12_online_social_network_and_socialbots.pdf (4 page
-s, 86563 bytes).
+ive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texli
+ve/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive
+/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2
+011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/201
+1/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2011/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on cse_227_wi12_online_social_network_and_socialbots.pdf (5 page
+s, 106729 bytes).
 PDF statistics:
- 41 PDF objects out of 1000 (max. 8388607)
- 28 compressed objects within 1 object stream
+ 52 PDF objects out of 1000 (max. 8388607)
+ 36 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

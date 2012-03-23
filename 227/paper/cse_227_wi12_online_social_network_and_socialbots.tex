@@ -25,7 +25,7 @@
 \fi
 
 
-\title{Socialbot \& Online Social Networks}
+\title{Impact of fake profiles on social medias}
 \author{
   \texttt{pierre-louis.gottfrois@epitech.eu} \\
   \texttt{pierre.fourgeaud@epitech.eu} \\
@@ -43,7 +43,7 @@
 \maketitle
 
 \begin{abstract}
-  Social media website such as Facebook or Twitter have become increasingly popular as
+  Social media websites such as Facebook or Twitter have become increasingly popular as
   a way to meet and converse with friends, co-workers and even people you don't know.
   At the same time, security concerns inherent in such communication have been explored
   in various different ways. Also fake profiles is a serious security threat to human
@@ -56,10 +56,10 @@
 \section{Introduction}
 Online Social Networks (OSNs) such as Facebook and Twitter have successfully accomplished
 their goal of connecting people together. With millions of active users using their
-platforms every day, they have rich a point where third parties companies wants to exploit
+platforms every day, they have reach a point where third party companies want to exploit
 them as an effective media to reach and potentially influence a large and diverse
-population of web users. For example, there are now more than 800 million active Facebook
-users, with more than 200 million added in 2011 and over 100 million active Twitter
+population of web users. For example, there are now more than 850 million active Facebook
+users, with more than 200 million added in 2011 and over 140 million active Twitter
 users \cite{stats_of_the_day}.
 
 It is now common for web users to share their personal and professional lives using OSNs.
@@ -68,23 +68,23 @@ and share “things” with their family, friends and colleagues. However, onlin
 experience is not exclusive to only human beings.
 
 A new kind of computer programs called “socialbots” are now online, gathering huge amount
-of data and trying to socialize with real users in order to potentially influence them.
+of informations and trying to socialize with real users in order to potentially influence them.
 A socialbot is an automation software who will automatically take control of an online
 account on a particular OSN. It has the ability to do basic actions such as posting
-contents and sending connections requests to real users. Most advance socialbot are made
+contents and sending connection requests to real users. Most advanced socialbots are made
 in a fashion way such as they can interact with real users without being spotted.
 This allows the socialbot to “infiltrate” user’s connections in order to reach an
 influential position, that is, to spread misinformation and propaganda in order to bias
 the public opinion, perform surveillance, and even more.
 
-In this paper, we recovered data analytics from various sources that shows today’s
+In this paper, we recovered data analytics from various sources that show today’s
 statistics on OSNs. We presented different ways of how to recognize a socialbot on Facebook
 in order to identify what are the recurrent patterns seen in fake profiles. From the user
 side, we show that a lot of OSN users are not careful enough when dealing with connection
 requests. Even more when they share mutual connections with the sender. This is one behavior
 being exploited by socialbot makers to achieve a large-scale infiltration with a high success
 rate. Finally, we presented first some basic techniques used by socialbot makers in
-comparison of more advance techniques used to have more accurate socialbots capable of almost
+comparison of more advanced techniques used to have more accurate socialbots capable of almost
 pass themselves as human beings.
 
 In conclusion, we discussed the importance of the human factor in such threats and how OSN
@@ -102,7 +102,7 @@ designers are trying to deal with them.
   \subsection{Socialbots}
   A socialbot is an automation software who will automatically take control of an online account
   on a particular OSN. It has the ability to do basic actions such as posting contents and
-  sending connections requests to real users. More advance socialbot are using heuristics and
+  sending connection requests to real users. More advance socialbot are using heuristics and
   learned observations about user’s behavior in order to increase the magnitude of their potential
   damage. Socialbot’s main goal is to imitate real user’s behavior as close as possible and to
   perform scalable attacks in a particular OSN.
@@ -121,7 +121,7 @@ designers are trying to deal with them.
 
   It is obvious that Facebook is a good place for socialbot makers. The huge number of users
   using facebook every day makes this OSN the place with the maximum likelihood to trap real
-  users with fake account.
+  users with fake accounts.
 
   \subsection{Twitter}
   Twitter is an online social networking service and micro-blogging service that enables its
@@ -135,29 +135,76 @@ designers are trying to deal with them.
 
   Once again socialbot makers are looking after Twitter's functionalities. As a matter of fact,
   interesting content will be re-tweet by users within 92\% compare to 84\% due to personal
-  connection. We can see here that not only because the content might be interesting but also
+  connections. We can see here that not only because the content might be interesting but also
   because users usually trust their social network and their friends. This is a crucial fact
-  for socialbot makers to know as their goal is to act at large scale.
+  for socialbot makers to know as their goal is to act at large-scale.
 
-  \section{How to recognize a Socialbot ?}
-  97\% of fake profiles are female. Moreover, 58\% of them are interested of both men and women.
-  With this information, we can be suspicious about this profile. But the main thing about fake
-  profile is the photo. Often, a fake profile will have a pretty attractive women attached to it.
+\section{How to recognize a Socialbot ?}
+In this section we extracted statistics from various sources showing what are the ways to
+recognize fake profiles over real profiles on Facebook. As a matter of fact, we found that
+97\% of fake profiles are female. Moreover, 58\% of them are interested in both men and
+women against only 6\% for real people. Profile picture is also a good clue with almost
+always a picture of an attractive women.
 
-  Another thing is that the majority of fake profiles didn't update their status on the social
-  media platform. Fake profiles have also an average of 136 tags every 4 photos on their profile
-  against an average of 1 for real users.
-  Besides, interest information is about (3) against (14) for a real profile. Like the education,
-  who is about () in average against () for normal user.
+We also found that a majority of fake profiles do not update their social status. In fact 43\%
+of them have never updated their Facebook status compared to 15\% of real people. Even more
+interesting, on average, fake profiles' pictures have 136 "tags" every 4 pictures against an
+average of 1 "tag" for real users. People interests also have big differences, the average
+number of entertainment interests listed is 3 for fake profiles against 12 for real profiles.
+Moreover, 68\% of fake profiles claim to have attended college over 40\% for real users.
 
-  Another big issue with fake users, is that they have an average of 726 friends against an
-  average of 130. Mainly, fake users have fake links in their profile with many ads. A big fact,
-  is that their is no delay between answer from a fake user, like when you type something,
-  instantly the fake profile answer because it's a program (we call that kind of program, a bot).
-  \cite{facebook_user_profiles}
+Finally, the easiest way to detect fake profile is with the number of social connections
+(friends). In deed, the average number is 130 friends for real people against 726 friends
+for fake profiles. We can see here that there is a very large disparity between fake and
+real profile on Facebook. However it may not be so obvious for people not aware how to
+recognize fake profile from real ones.\cite{facebook_user_profiles}
 
 \section{Socialbot makers techniques}
+
+  \subsection{Objectives}
+  There are two main objectives when creating a socialbot: (1) to carry out a large-scale
+  infiltration campaign in the targeted OSN, and (2) to harvest private user's data. In order
+  to achieve these goals, the socialbot need to connect to a large number of either random or
+  targeted OSN users. Whereas collecting user's data create great opportunities for socialbot
+  makers to do some phishing, spam or even collect monetary valuable data.
+
+  \subsection{Construction}
+  In this part, we will not cover the network architecture needed to handle large-scale
+  socialbots. It is absolutely necessary that such network provide some way to minimize
+  traffic to avoid detection.\\
+  \\
+  Building a socialbot involves first creating an attractive profile in the targeted OSN. After
+  that the credentials are given to the socialbot in order to get full control over this profile.
+
+  Second, research shows that the social attractiveness of a profile in an OSN is highly correlated
+  to its neighborhood size. For example, 130 connections is the average on Facebook. Thus, in order
+  to increase the social attractiveness of a socialbot, the adversary orders each socialbot to
+  connect to at most $N_{avg}$ other socialbots.
+
+  Third, it is well known that when two users share mutual connections, they are more likely to
+  connect to each other. Therefor in order to improve the potential infiltration in the targeted
+  OSN, the adversary orders each socialbot to connect to user profiles with whom it has mutual
+  connections.
+
+  Finally, whenever a socialbot is connected to a user profile, the adversary orders the socialbot
+  to collects all accessible user's profile information in its neighborhood.
+
+  In order to be effective, a socialbot has to meet two challenging goals: (1) socialbots need to
+  be well developed in order to hide themselves from OSN, and (2) to implement heuristic that
+  enable large-scale infiltration on targeted OSN.\cite{socialbot_network}
+
 \section{Conclusion}
+We have discussed what are the existing threats on OSN and saw various techniques on how to
+recognize socialbots. We talked specially about Facebook because we believe it is the biggest
+and more popular OSN right now with its millions of users. We saw what needed to be done in theory
+to create a socialbot to take over at large scale on a targeted OSN. Unfortunately it is obvious
+that socialbot makers are already taking advantages of these opportunities at large scale in order
+to make money and/or to influence people in real world. We believe that such infiltration in OSNs
+is only one over multiple future threats agains social networks and defending agains such threats
+is the first step towards maintaining a safer social Web for all of us.
+
+\section{Acknowledgments}
+We would like to thank you all people for their feedback on an early draft of this paper.
 
 \newpage
 

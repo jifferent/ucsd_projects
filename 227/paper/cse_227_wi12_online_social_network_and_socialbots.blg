@@ -3,44 +3,50 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: cse_227_wi12_online_social_network_and_socialbots.aux
 The style file: plain.bst
 Database file #1: references.bib
-You've used 6 entries,
+Too many commas in name 1 of "Yazan Boshmaf, Ildar Muslukhov, Konstantin Beznosov, Matei Ripeanu" for entry socialbot_network
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Yazan Boshmaf, Ildar Muslukhov, Konstantin Beznosov, Matei Ripeanu" for entry socialbot_network
+while executing---line 1090 of file plain.bst
+Warning--empty journal in socialbot_network
+You've used 7 entries,
             2118 wiz_defined-function locations,
-            521 strings with 4784 characters,
-and the built_in function-call counts, 1256 in all, are:
-= -- 113
-> -- 42
-< -- 0
-+ -- 18
-- -- 12
-* -- 41
-:= -- 212
-add.period$ -- 18
-call.type$ -- 6
-change.case$ -- 24
+            524 strings with 4928 characters,
+and the built_in function-call counts, 1508 in all, are:
+= -- 136
+> -- 49
+< -- 1
++ -- 22
+- -- 14
+* -- 54
+:= -- 254
+add.period$ -- 21
+call.type$ -- 7
+change.case$ -- 28
 chr.to.int$ -- 0
-cite$ -- 6
-duplicate$ -- 42
-empty$ -- 133
-format.name$ -- 12
-if$ -- 270
+cite$ -- 8
+duplicate$ -- 56
+empty$ -- 154
+format.name$ -- 14
+if$ -- 324
 int.to.chr$ -- 0
-int.to.str$ -- 6
-missing$ -- 0
-newline$ -- 33
-num.names$ -- 12
-pop$ -- 56
+int.to.str$ -- 7
+missing$ -- 1
+newline$ -- 38
+num.names$ -- 14
+pop$ -- 63
 preamble$ -- 1
-purify$ -- 18
+purify$ -- 21
 quote$ -- 0
-skip$ -- 41
+skip$ -- 50
 stack$ -- 0
-substring$ -- 30
-swap$ -- 6
-text.length$ -- 0
+substring$ -- 38
+swap$ -- 9
+text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 24
-warning$ -- 0
-while$ -- 12
-width$ -- 7
-write$ -- 61
+type$ -- 28
+warning$ -- 1
+while$ -- 15
+width$ -- 8
+write$ -- 71
+(There were 2 error messages)
