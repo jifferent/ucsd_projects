@@ -29,19 +29,19 @@
 (******************* 1. Warm Up   ********************************)
 (*****************************************************************)
 
-let sqsum xs = 
+let sqsum xs =
   let f a x = a + x * x in
   let base = 0 in
     List.fold_left f base xs
 
-let pipe fs = 
+let pipe fs =
   let f a x = fun y -> a (x y) in
   let base  = fun x -> x in
     List.fold_left f base fs
 
-let rec sepConcat sep sl = match sl with 
+let rec sepConcat sep sl = match sl with
   | [] -> ""
-  | h :: t -> 
+  | h :: t ->
       let f a x = a ^ sep ^ x in
       let base = h in
       let l = t in
@@ -73,10 +73,10 @@ let rec removeZero l = match l with
   | h::t -> if h == 0
             then removeZero t
             else h::t
-    
-let bigAdd l1 l2 = 
-  let add (l1, l2) = 
-    let f a x = 
+
+let bigAdd l1 l2 =
+  let add (l1, l2) =
+    let f a x =
       let (carry, result) = a in
       let (x1, x2)        = x in
       let res             = x1 + x2 + carry in
@@ -96,18 +96,14 @@ let rec mulByDigit i l = match i with
   | 0 -> [0]
   | _ -> bigAdd l (mulByDigit (i - 1) l)
 
-let bigMul l1 l2 = 
-  let f a x = 
-    let (index, result) = a in
-    let (list1, list2)  = x in
-      match list2 with
-      | []    -> []
-      | h::t  -> 
-        let t1 = mulByDigit h list1 in
-        let t2 = mulByDigit (int_of_float (10.0 ** (float index))) t1 in
-        (index + 1, t2)
+let bigMul l1 l2 =
+  let f a x =
+    let (i, acc)  = a in
+    let (_, n)    = x in
+    let res       = bigAdd (mulByDigit n l1 @ clone 0 i) acc in
+      (i + 1, res)
   in
   let base = (0, []) in
-  let args = List.combine l1 l2 in
+  let args = List.combine (clone l1 (List.length l2)) (List.rev l2) in
   let (_, res) = List.fold_left f base args in
     res
