@@ -35,7 +35,7 @@ let sqsum xs =
     List.fold_left f base xs
 
 let pipe fs =
-  let f a x = fun y -> a (x y) in
+  let f a x = fun y -> x (a y) in
   let base  = fun x -> x in
     List.fold_left f base fs
 
