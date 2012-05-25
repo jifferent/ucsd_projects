@@ -114,6 +114,8 @@ let lookup (x,evn) =
 let rec eval (evn,e) = match e with
   | Const v             ->  Int v
   | Var v               ->  lookup (v, evn)
+  | False               ->  Bool false
+  | True                ->  Bool true
   | Bin(e1, op, e2)     ->  let e1' = eval(evn, e1) in
                             let e2' = eval(evn, e2) in
                               (match (e1', e2') with
