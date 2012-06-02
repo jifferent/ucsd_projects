@@ -1,0 +1,82 @@
+RUNNING fibMT(7):
+,- fibMT(7)
+| ,- fibMT(6)
+| | ,- fibMT(5)
+| | | ,- fibMT(4)
+| | | | ,- fibMT(3)
+| | | | | ,- fibMT(2)
+| | | | | | ,- fibMT(1)
+| | | | | | `- 1
+| | | | | | ,- fibMT(0)
+| | | | | | `- 1
+| | | | | `- 2
+| | | | | ,- fibMT(1)
+| | | | | `- 1
+| | | | `- 3
+| | | | ,- fibMT(2)
+| | | | `- 2
+| | | `- 5
+| | | ,- fibMT(3)
+| | | `- 3
+| | `- 8
+| | ,- fibMT(4)
+| | `- 5
+| `- 13
+| ,- fibMT(5)
+| `- 8
+`- 21
+RETURNED 21
+RUNNING fibTM(7):
+,- fibTM(7)
+| ,- fibTM(6)
+| | ,- fibTM(5)
+| | | ,- fibTM(4)
+| | | | ,- fibTM(3)
+| | | | | ,- fibTM(2)
+| | | | | | ,- fibTM(1)
+| | | | | | `- 1
+| | | | | | ,- fibTM(0)
+| | | | | | `- 1
+| | | | | `- 2
+| | | | `- 3
+| | | `- 5
+| | `- 8
+| `- 13
+`- 21
+RETURNED 21
+RUNNING quicksortMT1:
+,- quickSortMT(List(5, 8, 100, 45, 3, 89, 22, 78, 121, 2, 78))
+| ,- quickSortMT(List(3, 2))
+| | ,- quickSortMT(List(2))
+| | `- List(2)
+| | ,- quickSortMT(List())
+| | `- List()
+| `- List(2, 3)
+| ,- quickSortMT(List(8, 100, 45, 89, 22, 78, 121, 78))
+| | ,- quickSortMT(List())
+| | `- List()
+| | ,- quickSortMT(List(100, 45, 89, 22, 78, 121, 78))
+| | | ,- quickSortMT(List(45, 89, 22, 78, 78))
+| | | | ,- quickSortMT(List(22))
+| | | | `- List(22)
+| | | | ,- quickSortMT(List(89, 78, 78))
+| | | | | ,- quickSortMT(List(78, 78))
+| | | | | | ,- quickSortMT(List(78))
+| | | | | | `- List(78)
+| | | | | | ,- quickSortMT(List())
+| | | | | | `- List()
+| | | | | `- List(78, 78)
+| | | | | ,- quickSortMT(List())
+| | | | | `- List()
+| | | | `- List(78, 78, 89)
+| | | `- List(22, 45, 78, 78, 89)
+| | | ,- quickSortMT(List(121))
+| | | `- List(121)
+| | `- List(22, 45, 78, 78, 89, 100, 121)
+| `- List(8, 22, 45, 78, 78, 89, 100, 121)
+`- List(2, 3, 5, 8, 22, 45, 78, 78, 89, 100, 121)
+RETURNED List(2, 3, 5, 8, 22, 45, 78, 78, 89, 100, 121)
+RUNNING quicksortMT2:
+,- quickSortMT(List(5, 8, 100, 45, 3, 89, 22, 78, 121, 2, 78))
+`- List(2, 3, 5, 8, 22, 45, 78, 78, 89, 100, 121)
+RETURNED List(2, 3, 5, 8, 22, 45, 78, 78, 89, 100, 121)

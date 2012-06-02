@@ -1,0 +1,295 @@
+RUNNING fibT(7):
+,- fibT(7)
+| ,- fibT(6)
+| | ,- fibT(5)
+| | | ,- fibT(4)
+| | | | ,- fibT(3)
+| | | | | ,- fibT(2)
+| | | | | | ,- fibT(1)
+| | | | | | `- 1
+| | | | | | ,- fibT(0)
+| | | | | | `- 1
+| | | | | `- 2
+| | | | | ,- fibT(1)
+| | | | | `- 1
+| | | | `- 3
+| | | | ,- fibT(2)
+| | | | | ,- fibT(1)
+| | | | | `- 1
+| | | | | ,- fibT(0)
+| | | | | `- 1
+| | | | `- 2
+| | | `- 5
+| | | ,- fibT(3)
+| | | | ,- fibT(2)
+| | | | | ,- fibT(1)
+| | | | | `- 1
+| | | | | ,- fibT(0)
+| | | | | `- 1
+| | | | `- 2
+| | | | ,- fibT(1)
+| | | | `- 1
+| | | `- 3
+| | `- 8
+| | ,- fibT(4)
+| | | ,- fibT(3)
+| | | | ,- fibT(2)
+| | | | | ,- fibT(1)
+| | | | | `- 1
+| | | | | ,- fibT(0)
+| | | | | `- 1
+| | | | `- 2
+| | | | ,- fibT(1)
+| | | | `- 1
+| | | `- 3
+| | | ,- fibT(2)
+| | | | ,- fibT(1)
+| | | | `- 1
+| | | | ,- fibT(0)
+| | | | `- 1
+| | | `- 2
+| | `- 5
+| `- 13
+| ,- fibT(5)
+| | ,- fibT(4)
+| | | ,- fibT(3)
+| | | | ,- fibT(2)
+| | | | | ,- fibT(1)
+| | | | | `- 1
+| | | | | ,- fibT(0)
+| | | | | `- 1
+| | | | `- 2
+| | | | ,- fibT(1)
+| | | | `- 1
+| | | `- 3
+| | | ,- fibT(2)
+| | | | ,- fibT(1)
+| | | | `- 1
+| | | | ,- fibT(0)
+| | | | `- 1
+| | | `- 2
+| | `- 5
+| | ,- fibT(3)
+| | | ,- fibT(2)
+| | | | ,- fibT(1)
+| | | | `- 1
+| | | | ,- fibT(0)
+| | | | `- 1
+| | | `- 2
+| | | ,- fibT(1)
+| | | `- 1
+| | `- 3
+| `- 8
+`- 21
+RETURNED 21
+RUNNING fibMT(7):
+,- fibMT(7)
+| ,- fibMT(6)
+| | ,- fibMT(5)
+| | | ,- fibMT(4)
+| | | | ,- fibMT(3)
+| | | | | ,- fibMT(2)
+| | | | | | ,- fibMT(1)
+| | | | | | `- 1
+| | | | | | ,- fibMT(0)
+| | | | | | `- 1
+| | | | | `- 2
+| | | | | ,- fibMT(1)
+| | | | | `- 1
+| | | | `- 3
+| | | | ,- fibMT(2)
+| | | | `- 2
+| | | `- 5
+| | | ,- fibMT(3)
+| | | `- 3
+| | `- 8
+| | ,- fibMT(4)
+| | `- 5
+| `- 13
+| ,- fibMT(5)
+| `- 8
+`- 21
+RETURNED 21
+RUNNING fibTM(7):
+,- fibTM(7)
+| ,- fibTM(6)
+| | ,- fibTM(5)
+| | | ,- fibTM(4)
+| | | | ,- fibTM(3)
+| | | | | ,- fibTM(2)
+| | | | | | ,- fibTM(1)
+| | | | | | `- 1
+| | | | | | ,- fibTM(0)
+| | | | | | `- 1
+| | | | | `- 2
+| | | | `- 3
+| | | `- 5
+| | `- 8
+| `- 13
+`- 21
+RETURNED 21
+RUNNING fibMP(7):
+RETURNED 21
+RUNNING fibMP.count:
+RETURNED 13
+RUNNING fibMP(7):
+RETURNED 21
+RUNNING fibMP.count:
+RETURNED 14
+RUNNING fibMP.reset:
+RETURNED ()
+RUNNING fibMP(7):
+RETURNED 21
+RUNNING fibMP.count:
+RETURNED 1
+RUNNING even(6):
+,- even(6)
+| ,- odd(5)
+| | ,- even(4)
+| | | ,- odd(3)
+| | | | ,- even(2)
+| | | | | ,- odd(1)
+| | | | | | ,- even(0)
+| | | | | | `- true
+| | | | | `- true
+| | | | `- true
+| | | `- true
+| | `- true
+| `- true
+`- true
+RETURNED true
+RUNNING quicksortT:
+,- quickSortT(List(5, 8, 100, 45, 3, 89, 22, 78, 121, 2, 78))
+| ,- quickSortT(List(3, 2))
+| | ,- quickSortT(List(2))
+| | `- List(2)
+| | ,- quickSortT(List())
+| | `- List()
+| `- List(2, 3)
+| ,- quickSortT(List(8, 100, 45, 89, 22, 78, 121, 78))
+| | ,- quickSortT(List())
+| | `- List()
+| | ,- quickSortT(List(100, 45, 89, 22, 78, 121, 78))
+| | | ,- quickSortT(List(45, 89, 22, 78, 78))
+| | | | ,- quickSortT(List(22))
+| | | | `- List(22)
+| | | | ,- quickSortT(List(89, 78, 78))
+| | | | | ,- quickSortT(List(78, 78))
+| | | | | | ,- quickSortT(List(78))
+| | | | | | `- List(78)
+| | | | | | ,- quickSortT(List())
+| | | | | | `- List()
+| | | | | `- List(78, 78)
+| | | | | ,- quickSortT(List())
+| | | | | `- List()
+| | | | `- List(78, 78, 89)
+| | | `- List(22, 45, 78, 78, 89)
+| | | ,- quickSortT(List(121))
+| | | `- List(121)
+| | `- List(22, 45, 78, 78, 89, 100, 121)
+| `- List(8, 22, 45, 78, 78, 89, 100, 121)
+`- List(2, 3, 5, 8, 22, 45, 78, 78, 89, 100, 121)
+RETURNED List(2, 3, 5, 8, 22, 45, 78, 78, 89, 100, 121)
+RUNNING quicksortMT1:
+,- quickSortMT(List(5, 8, 100, 45, 3, 89, 22, 78, 121, 2, 78))
+| ,- quickSortMT(List(3, 2))
+| | ,- quickSortMT(List(2))
+| | `- List(2)
+| | ,- quickSortMT(List())
+| | `- List()
+| `- List(2, 3)
+| ,- quickSortMT(List(8, 100, 45, 89, 22, 78, 121, 78))
+| | ,- quickSortMT(List())
+| | `- List()
+| | ,- quickSortMT(List(100, 45, 89, 22, 78, 121, 78))
+| | | ,- quickSortMT(List(45, 89, 22, 78, 78))
+| | | | ,- quickSortMT(List(22))
+| | | | `- List(22)
+| | | | ,- quickSortMT(List(89, 78, 78))
+| | | | | ,- quickSortMT(List(78, 78))
+| | | | | | ,- quickSortMT(List(78))
+| | | | | | `- List(78)
+| | | | | | ,- quickSortMT(List())
+| | | | | | `- List()
+| | | | | `- List(78, 78)
+| | | | | ,- quickSortMT(List())
+| | | | | `- List()
+| | | | `- List(78, 78, 89)
+| | | `- List(22, 45, 78, 78, 89)
+| | | ,- quickSortMT(List(121))
+| | | `- List(121)
+| | `- List(22, 45, 78, 78, 89, 100, 121)
+| `- List(8, 22, 45, 78, 78, 89, 100, 121)
+`- List(2, 3, 5, 8, 22, 45, 78, 78, 89, 100, 121)
+RETURNED List(2, 3, 5, 8, 22, 45, 78, 78, 89, 100, 121)
+RUNNING quicksortMT2:
+,- quickSortMT(List(5, 8, 100, 45, 3, 89, 22, 78, 121, 2, 78))
+`- List(2, 3, 5, 8, 22, 45, 78, 78, 89, 100, 121)
+RETURNED List(2, 3, 5, 8, 22, 45, 78, 78, 89, 100, 121)
+RUNNING changeT:
+,- changeT((List(9, 7, 5),44))
+| ,- changeT((List(9, 7, 5),35))
+| | ,- changeT((List(9, 7, 5),26))
+| | | ,- changeT((List(9, 7, 5),17))
+| | | | ,- changeT((List(9, 7, 5),8))
+| | | | | ,- changeT((List(7, 5),8))
+| | | | | | ,- changeT((List(7, 5),1))
+| | | | | | | ,- changeT((List(5),1))
+| | | | | | | | ,- changeT((List(),1))
+| | | | | | ,- changeT((List(5),8))
+| | | | | | | ,- changeT((List(5),3))
+| | | | | | | | ,- changeT((List(),3))
+| | | | | | | ,- changeT((List(),8))
+| | | | ,- changeT((List(7, 5),17))
+| | | | | ,- changeT((List(7, 5),10))
+| | | | | | ,- changeT((List(7, 5),3))
+| | | | | | | ,- changeT((List(5),3))
+| | | | | | | | ,- changeT((List(),3))
+| | | | | | ,- changeT((List(5),10))
+| | | | | | | ,- changeT((List(5),5))
+| | | | | | | | ,- changeT((List(5),0))
+| | | | | | | | `- List()
+| | | | | | | `- List(5)
+| | | | | | `- List(5, 5)
+| | | | | `- List(5, 5)
+| | | | `- List(7, 5, 5)
+| | | `- List(7, 5, 5)
+| | `- List(9, 7, 5, 5)
+| `- List(9, 9, 7, 5, 5)
+`- List(9, 9, 9, 7, 5, 5)
+RETURNED List(9, 9, 9, 7, 5, 5)
+RUNNING changeMT1:
+,- changeMT((List(9, 7, 5),44))
+| ,- changeMT((List(9, 7, 5),35))
+| | ,- changeMT((List(9, 7, 5),26))
+| | | ,- changeMT((List(9, 7, 5),17))
+| | | | ,- changeMT((List(9, 7, 5),8))
+| | | | | ,- changeMT((List(7, 5),8))
+| | | | | | ,- changeMT((List(7, 5),1))
+| | | | | | | ,- changeMT((List(5),1))
+| | | | | | | | ,- changeMT((List(),1))
+| | | | | | ,- changeMT((List(5),8))
+| | | | | | | ,- changeMT((List(5),3))
+| | | | | | | | ,- changeMT((List(),3))
+| | | | | | | ,- changeMT((List(),8))
+| | | | ,- changeMT((List(7, 5),17))
+| | | | | ,- changeMT((List(7, 5),10))
+| | | | | | ,- changeMT((List(7, 5),3))
+| | | | | | | ,- changeMT((List(5),3))
+| | | | | | ,- changeMT((List(5),10))
+| | | | | | | ,- changeMT((List(5),5))
+| | | | | | | | ,- changeMT((List(5),0))
+| | | | | | | | `- List()
+| | | | | | | `- List(5)
+| | | | | | `- List(5, 5)
+| | | | | `- List(5, 5)
+| | | | `- List(7, 5, 5)
+| | | `- List(7, 5, 5)
+| | `- List(9, 7, 5, 5)
+| `- List(9, 9, 7, 5, 5)
+`- List(9, 9, 9, 7, 5, 5)
+RETURNED List(9, 9, 9, 7, 5, 5)
+RUNNING changeMT2:
+,- changeMT((List(9, 7, 5),44))
+`- List(9, 9, 9, 7, 5, 5)
+RETURNED List(9, 9, 9, 7, 5, 5)
