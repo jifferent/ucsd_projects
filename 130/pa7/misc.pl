@@ -12,19 +12,24 @@ isin(X,[_|T]) :- isin(X,T).
 
 zip(L1,L2,L3) :- helper_zip(L1, L2, L3).
 helper_zip([], L, L) :- !.
-helper_zip(L, [], L) :- !.
 helper_zip([ X | Xs ], L, [ X | Zs ]) :- zip(Xs, L, Zs).
 helper_zip(L, [ Y | Ys ], [ Y | Zs ]) :- zip(L, Ys, Zs).
 
 assoc(L,X,Y) :- helper_assoc(L, X, Y).
-helper_assoc([ [X, Y] | _ ], X, Y) :- true.
-helper_assoc([ L | Ts ], X, Y) :- assoc(Ts, X, Y).
+helper_assoc([ [X, Y] | _ ], X, Y).
+helper_assoc([ _ | Ts ], X, Y) :- assoc(Ts, X, Y).
 
-remove_duplicates(L1,L2) :- throw(to_be_done).
+remove_duplicates(L1,L2) :- reverse(L1, Rl1), reverse(L2, Rl2), helper_duplicates(Rl1, Rl2), !.
+helper_duplicates([], []).
+helper_duplicates([ H | T ], [ H | R ]) :- not(isin(H, T)), helper_duplicates(T, R).
+helper_duplicates([ H | T ], L2) :- isin(H, T), helper_duplicates(T, L2).
 
-union(L1,L2,L3) :- throw(to_be_done).
+union(L1,L2,L3) :- append(L1, L2, L), remove_duplicates(L, L3).
 
-intersection(L1,L2,L3) :- throw(to_be_done).
+intersection(L1,L2,L3) :- helper_intersection(L1, L2, L3).
+helper_intersection([], _, []).
+helper_intersection([ X | Xs ], L2, [ X | Ys ]) :- isin(X, L2), intersection(Xs, L2, Ys).
+helper_intersection([ X | Xs ], L2, L3) :- not(isin(X, L2)), intersection(Xs, L2, L3).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problem 2: Facts
@@ -72,22 +77,30 @@ taqueria(la_milpas_quatros, [jiminez, martin, antonio, miguel],
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problem 2: Rules
 
-available_at(X,L) :- throw(to_be_done).
+available_at(X,L) :- taqueria(L, _, Xs), isin(X, Xs).
 
-multi_available(X) :- throw(to_be_done).
+multi_available(X) :- available_at(X, L1), available_at(X, L2), L1 \= L2.
 
-overworked(X) :- throw(to_be_done).
+work_at(X, L) :- taqueria(L, Xs, _), isin(X, Xs).
 
-total_cost(X,K) :- throw(to_be_done).
+overworked(X) :- work_at(X, L1), work_at(X, L2), L1 \= L2.
 
-has_ingredients(X,Is) :- throw(to_be_done).
+total_cost(X,K) :- ingredients(X, L), helper_total_cost(L, K).
+helper_total_cost([], 0).
+helper_total_cost([H | T], K) :- cost(H, V), helper_total_cost(T, K1), K is K1 + V.
 
-avoids_ingredients(X,Is) :- throw(to_be_done).
+has_ingredients(X,Is) :- ingredients(X, L), helper_has_ingredients(Is, L).
+helper_has_ingredients([], _).
+helper_has_ingredients([I | Is], L) :- isin(I, L), helper_has_ingredients(Is, L).
 
-p1(L,X) :- throw(to_be_done).
+avoids_ingredients(X,Is) :- ingredients(X, L), helper_avoids_ingredients(Is, L).
+helper_avoids_ingredients([], _).
+helper_avoids_ingredients([I | Is], L) :- not(isin(I, L)), helper_avoids_ingredients(Is, L).
 
-p2(L,Y) :- throw(to_be_done).
+p1(L, X) :- bagof(L, has_ingredients(L, X), L).
 
-find_items(L,X,Y) :- p1(L1,X), p2(L2,Y),intersection(L1,L2,L).
+p2(L,Y) :- bagof(L, avoids_ingredients(L, Y), L).
+
+find_items(L,X,Y) :- p1(L1,X), p2(L2,Y), intersection(L1,L2,L).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

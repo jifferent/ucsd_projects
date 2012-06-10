@@ -2,26 +2,31 @@ function [ W, mu ] = fisherTrain( trainset, trainLabels, c )
 
 N = 70;
 
-[ Wpca, mu ] = eigenTrain(trainset, N - c);
+[ Wpca, mu ] = eigenTrain(trainset, N-c);
 y = Wpca' * (trainset' - repmat(mu', 1, N));
 
 new_mu = [];
+n = 0;
 for i=1:(N-c)
-    temp = 0;
+    acc = 0;
     for j=1:N
-        temp = temp + y(i, j);
+        if (i == trainLabels(j))
+            acc = acc + y(i, j);
+            n = n + 1;
+        end
     end
-    new_mu = [new_mu (temp / N)];
+    new_mu = [new_mu (acc / n)];
 end
 
 mu = new_mu';
-Sb = [];
-Sw = [];
+Sb = zeros(N-c);
+Sw = zeros(N-c);
+
 for i=1:c
-    Sb = y(i) * (mu(i) - mu) * (mu(i) - mu)';
+    Sb = Sb + n * (mu(i) - mu) * (mu(i) - mu)';
     for j=1:N
         if (i == trainLabels(j))
-            Sw = (y(:, j) - mu(i)) * (y(:, j) - mu(i))';
+            Sw = Sw + (y(:, j) - mu(i)) * (y(:, j) - mu(i))';
         end
     end
 end
