@@ -79,11 +79,11 @@ taqueria(la_milpas_quatros, [jiminez, martin, antonio, miguel],
 
 available_at(X,L) :- taqueria(L, _, Xs), isin(X, Xs).
 
-multi_available(X) :- available_at(X, L1), available_at(X, L2), L1 \= L2.
+multi_available(X) :- bagof(L, available_at(X, L), Ls), length(Ls, K), K > 1.
 
 work_at(X, L) :- taqueria(L, Xs, _), isin(X, Xs).
 
-overworked(X) :- work_at(X, L1), work_at(X, L2), L1 \= L2.
+overworked(X) :- bagof(L, work_at(X, L), Ls), length(Ls, K), K > 1.
 
 total_cost(X,K) :- ingredients(X, L), helper_total_cost(L, K).
 helper_total_cost([], 0).
